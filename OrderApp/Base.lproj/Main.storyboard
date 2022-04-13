@@ -267,17 +267,27 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="VAI-bS-D4o">
+                                <rect key="frame" x="132" y="531" width="150" height="4"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="JuR-1g-qMU"/>
+                                    <constraint firstAttribute="height" constant="4" id="krJ-jP-9M1"/>
+                                </constraints>
+                            </progressView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="bdj-vj-l5V"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="VAI-bS-D4o" firstAttribute="centerX" secondItem="5Sg-43-j2f" secondAttribute="centerX" id="Ksk-Mh-jLD"/>
                             <constraint firstItem="0X7-qE-tTm" firstAttribute="leading" secondItem="bdj-vj-l5V" secondAttribute="leading" constant="20" id="U1Y-Hh-qz1"/>
                             <constraint firstItem="0X7-qE-tTm" firstAttribute="centerY" secondItem="5Sg-43-j2f" secondAttribute="centerY" id="aJG-FL-Cfq"/>
+                            <constraint firstItem="VAI-bS-D4o" firstAttribute="top" secondItem="0X7-qE-tTm" secondAttribute="bottom" constant="70" id="h2q-fa-Stv"/>
                             <constraint firstAttribute="trailing" secondItem="0X7-qE-tTm" secondAttribute="trailing" constant="20" id="ogx-bC-sd1"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="confirmationLabel" destination="hjf-ws-jeb" id="dQD-Yo-r4F"/>
+                        <outlet property="progressBar" destination="VAI-bS-D4o" id="lGT-27-MG7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ozd-Sy-tm3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
