@@ -10,8 +10,6 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -19,6 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let fileManager = FileManager()
         let urlCache = URLCache(memoryCapacity: 25_000_000, diskCapacity: 50_000_000, directory: fileManager.temporaryDirectory)
         URLCache.shared = urlCache
+        
+        // Set AppDelegate as the delegate to UNUserNotificationCenter
+        UNUserNotificationCenter.current().delegate = self
         
         return true
     }
@@ -39,4 +40,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 }
+
+// MARK: - UNUserNotificationCenterDelegate
+
+// This extension conforms AppDelegate to UNUserNotificationCenterDelefate in order to facilitate foreground local notications
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: (UNNotificationPresentationOptions) -> Void) {
+        // Set the notification style to banner
+        completionHandler(.banner)
+    }
+}
+
 
