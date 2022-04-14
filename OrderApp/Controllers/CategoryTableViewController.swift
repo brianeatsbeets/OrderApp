@@ -15,6 +15,15 @@ class CategoryTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        requestAuthorization { granted in
+            switch granted {
+            case true:
+                print("yay!")
+            case false:
+                print("aww.")
+            }
+        }
+        
         // Fetch and present categories; display error if error
         MenuController.shared.fetchCategories { (result) in
             switch result {
@@ -23,6 +32,13 @@ class CategoryTableViewController: UITableViewController {
             case .failure(let error):
                 self.displayError(error, title: "Failed to Fetch Categories")
             }
+        }
+    }
+    
+    // Request authorization to display notifications
+    func requestAuthorization(completion: @escaping  (Bool) -> Void) {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _  in
+            completion(granted)
         }
     }
     
