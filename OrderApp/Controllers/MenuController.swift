@@ -20,9 +20,16 @@ class MenuController {
     // Set the URL for the local server
     let baseURL = URL(string: "http://localhost:8080/")!
     
+    // Define an NSUserActivity instance to use for state restoration
+    var userActivity = NSUserActivity(activityType: "com.brianaguirre.OrderApp.order")
+    
     var order = Order() {
         didSet {
+            // Notify the order table view to reload data when the order is updated
             NotificationCenter.default.post(name: MenuController.orderUpdatedNotification, object: nil)
+            
+            // Update the order in our NSUserActivity instance
+            userActivity.order = order
         }
     }
     
