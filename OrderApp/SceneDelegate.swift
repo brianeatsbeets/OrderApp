@@ -28,9 +28,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
         
-        // Add observer to the order
+        // Add a notification observer to the order
         NotificationCenter.default.addObserver(self, selector: #selector(updateOrderBadge), name: MenuController.orderUpdatedNotification, object: nil)
         orderTabBarItem = (window?.rootViewController as? UITabBarController)?.viewControllers?[1].tabBarItem
+        
+        // Check if we have an NSUserActivity instance and pass it to configureScene(for:)
+        if let userActivity = connectionOptions.userActivities.first ?? session.stateRestorationActivity {
+            configureScene(for: userActivity)
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -59,6 +64,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
+    }
+    
+    // Fetch the MenuController's NSUserActivity instance
+    func stateRestorationActivity(for scene: UIScene) -> NSUserActivity? {
+        return MenuController.shared.userActivity
+    }
+    
+    // Make sure we have a stored order, and if so, restore it
+    func configureScene(for userActivity: NSUserActivity) {
+        if let restoredOrder = userActivity.order {
+            MenuController.shared.order = restoredOrder
+        }
     }
 
 
