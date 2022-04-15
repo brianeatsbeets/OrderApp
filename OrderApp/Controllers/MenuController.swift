@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-// This class serves as a network controller that contains networking functions along with some static resources
+// This class serves as a helper controller that contains networking functions along with some static resources
 class MenuController {
     
     // Custom notification for order updates
