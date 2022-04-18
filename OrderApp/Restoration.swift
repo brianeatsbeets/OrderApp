@@ -84,6 +84,29 @@ extension NSUserActivity {
 // This enum contains the possible state restoration views to be restored
 enum StateRestorationController {
     
+    init?(userActivity: NSUserActivity) {
+        guard let identifier = userActivity.controllerIdentifier else { return nil }
+        
+        switch identifier {
+        case .categories:
+            self = .categories
+        case .menu:
+            if let category = userActivity.menuCategory {
+                self = .menu(category: category)
+            } else {
+                return nil
+            }
+        case .menuItemDetail:
+            if let menuItem = userActivity.menuItem {
+                self = .menuItemDetail(menuItem)
+            } else {
+                return nil
+            }
+        case .order:
+            self = .order
+        }
+    }
+    
     // This enum provides options for the view currently in use
     enum Identifier: String {
         case categories, menu, menuItemDetail, order
