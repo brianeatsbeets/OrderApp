@@ -7,7 +7,7 @@
 
 import Foundation
 
-// This extension of NSUserActivity provides an Order property that is encoded and decoded upon get/set
+// This extension of NSUserActivity provides several properties to contain state information
 extension NSUserActivity {
     
     // The user's current order

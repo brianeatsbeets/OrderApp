@@ -35,6 +35,12 @@ class CategoryTableViewController: UITableViewController {
         }
     }
     
+    // Update user activity state
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        MenuController.shared.updateUserActivity(with: .categories)
+    }
+    
     // Request authorization to display notifications
     func requestAuthorization(completion: @escaping  (Bool) -> Void) {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _  in

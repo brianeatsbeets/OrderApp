@@ -21,6 +21,12 @@ class OrderTableViewController: UITableViewController {
         NotificationCenter.default.addObserver(tableView!, selector: #selector(tableView.reloadData), name: MenuController.orderUpdatedNotification, object: nil)
     }
     
+    // Update user activity state
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        MenuController.shared.updateUserActivity(with: .order)
+    }
+    
     // Navigate to the order confirmation controller with the prep time provided by the server API
     @IBSegueAction func confirmOrder(_ coder: NSCoder) -> OrderConfirmationViewController? {
         return OrderConfirmationViewController(coder: coder, prepTime: minutesToPrepareOrder)

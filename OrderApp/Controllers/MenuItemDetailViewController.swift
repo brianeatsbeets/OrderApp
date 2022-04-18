@@ -36,6 +36,12 @@ class MenuItemDetailViewController: UIViewController {
         addToOrderButton.layer.cornerRadius = 5.0
     }
     
+    // Update user activity state
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        MenuController.shared.updateUserActivity(with: .menuItemDetail(menuItem))
+    }
+    
     // Fetch and set the UI element values
     func updateUI() {
         nameLabel.text = menuItem.name

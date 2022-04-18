@@ -37,6 +37,12 @@ class MenuTableViewController: UITableViewController {
         }
     }
     
+    // Update user activity state
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        MenuController.shared.updateUserActivity(with: .menu(category: category))
+    }
+    
     // Update the UI elements
     func updateUI(with menuItems: [MenuItem]) {
         DispatchQueue.main.async {
