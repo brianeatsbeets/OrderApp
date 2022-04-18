@@ -71,10 +71,53 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return MenuController.shared.userActivity
     }
     
-    // Make sure we have a stored order, and if so, restore it
+    // Check if we have a stored order, and if so, restore it
     func configureScene(for userActivity: NSUserActivity) {
         if let restoredOrder = userActivity.order {
             MenuController.shared.order = restoredOrder
+        }
+        
+        // Make sure that the environment is set as expected before restoring state
+        guard
+            let restorationController = StateRestorationController(userActivity: userActivity),
+            let tabBarController = window?.rootViewController as? UITabBarController, tabBarController.viewControllers?.count == 2,
+            let categoryTableViewController = (tabBarController.viewControllers?[0] as? UINavigationController)?.topViewController as? CategoryTableViewController
+        else {
+            return
+        }
+        
+        // Initialize the storyboard
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        // Determine which view controller should be presented based on stored state
+        switch restorationController {
+        case .categories:
+            break
+        case .menu(let category):
+            // Instantiate a new MenuTableViewController and pass it the stored category
+            let menuTableViewController = storyboard.instantiateViewController(identifier: restorationController.identifier.rawValue) { (coder) in
+                return MenuTableViewController(coder: coder, category: category)
+            }
+            
+            // Push the view controller
+            categoryTableViewController.navigationController?.pushViewController(menuTableViewController, animated: true)
+        case .menuItemDetail(let menuItem):
+            // Instantiate a new MenuTableViewController and pass it the stored category
+            let menuTableViewController = storyboard.instantiateViewController(identifier: StateRestorationController.Identifier.menu.rawValue) { (coder) in
+                return MenuTableViewController(coder: coder, category: menuItem.category)
+            }
+            
+            // Instantiate a new MenuItemDetailViewController and pass it the stored menuItem
+            let menuItemDetailViewController = storyboard.instantiateViewController(identifier: restorationController.identifier.rawValue) { (coder) in
+                return MenuItemDetailViewController(coder: coder, menuItem: menuItem)
+            }
+            
+            // Push both view controllers in order
+            categoryTableViewController.navigationController?.pushViewController(menuTableViewController, animated: true)
+            categoryTableViewController.navigationController?.pushViewController(menuItemDetailViewController, animated: true)
+        case .order:
+            // Set the selected tab bar view controller
+            tabBarController.selectedIndex = 1
         }
     }
 

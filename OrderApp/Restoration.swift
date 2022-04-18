@@ -84,6 +84,7 @@ extension NSUserActivity {
 // This enum contains the possible state restoration views to be restored
 enum StateRestorationController {
     
+    // Initialize with stored userActivity, if it exists
     init?(userActivity: NSUserActivity) {
         guard let identifier = userActivity.controllerIdentifier else { return nil }
         
